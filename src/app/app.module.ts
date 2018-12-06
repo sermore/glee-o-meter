@@ -4,29 +4,27 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './components/app/app.component';
-import { LoginComponent } from './components/login/login.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { SigninComponent } from './components/signin/signin.component';
+import { AppComponent } from './app/app.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ProfileComponent } from './profile/profile.component';
 import { ConfigService, configServiceInitializerFactory } from './services/config.service';
 import { TokenInterceptor } from './services/token.interceptor';
 import { SharedModule } from './shared/shared.module';
+import { PublicModule } from './public/public.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent,
     ProfileComponent,
-    SigninComponent
   ],
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
     JwtModule,
     SharedModule,
+    PublicModule,
     AppRoutingModule
   ],
   providers: [
