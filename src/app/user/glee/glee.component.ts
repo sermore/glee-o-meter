@@ -97,7 +97,7 @@ export class GleeComponent implements OnInit {
     this.dataSource.applyFilter(null);
   }
 
-  valueOver(value: number): boolean {
-    return value > this.currentUser.minGleePerDay;
+  valueUnder(value: number): boolean {
+    return value < this.currentUser.minGleePerDay;
   }
 }

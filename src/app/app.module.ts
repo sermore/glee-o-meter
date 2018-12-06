@@ -6,8 +6,6 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
 import { LoginComponent } from './components/login/login.component';
-import { GleeDetailComponent } from './components/glee-detail/glee-detail.component';
-import { GleeComponent } from './components/glee/glee.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
@@ -20,9 +18,7 @@ import { SharedModule } from './shared/shared.module';
   declarations: [
     AppComponent,
     NavbarComponent,
-    GleeComponent,
     LoginComponent,
-    GleeDetailComponent,
     ProfileComponent,
     SignInComponent
   ],
@@ -44,8 +40,5 @@ import { SharedModule } from './shared/shared.module';
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [
-    GleeDetailComponent
-  ]
 })
 export class AppModule { }

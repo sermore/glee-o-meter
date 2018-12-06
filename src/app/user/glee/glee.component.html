@@ -99,7 +99,7 @@
 
         <ng-container matColumnDef="value">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Value </mat-header-cell>
-          <mat-cell *matCellDef="let glee" [class.glee-value-over]="valueOver(glee.value)" >
+          <mat-cell *matCellDef="let glee" [class.glee-value-under]="valueUnder(glee.value)" >
             {{glee.value | number: '1.0-2' }}
           </mat-cell>
         </ng-container>
