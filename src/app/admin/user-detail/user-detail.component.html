@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>User</h1>
+
+<mat-dialog-content [formGroup]="userForm" class="user-detail-content">
+
+  <mat-form-field>
+    <input matInput placeholder="email" formControlName="email">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Role" formControlName="role">
+      <mat-option value="USER">User</mat-option>
+      <mat-option value="ADMIN">Admin</mat-option>
+      <mat-option value="USER_MANAGER">User manager</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="number" placeholder="Minimum Glee per day" matInput formControlName="minGleePerDay">
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="user-detail-actions">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button type="submit" [disabled]="!userForm.valid" (click)="submit()">Save</button>
+</mat-dialog-actions>

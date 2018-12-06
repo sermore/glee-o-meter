@@ -1,0 +1,8 @@
+{
+    "serverUrl": "http://localhost:8080/api/",
+    "loginUrl": "http://localhost:8080/oauth/token",
+    "signinUrl": "http://localhost:8080/signin",
+    "clientId": "glee-o-meter",
+    "clientSecret": "secret"
+    
+}

@@ -1,0 +1,24 @@
+<mat-toolbar color="primary">
+  <span>Glee-O-Meter</span>
+  <ng-container *ngIf="loggedUser$ | async">
+
+    <a mat-button routerLink="/glee" *ngIf="!(authentication.hasRole('USER_MANAGER') | async)" >Glee</a>
+    <a mat-button routerLink="/admin/users"*ngIf="!(authentication.hasRole('USER') | async)">Users</a>
+
+    <span class="filler"></span>
+
+    <a mat-button routerLink="/profile" >{{(loggedUser$ | async)?.email}} {{(loggedUser$ | async)?.role}}</a>
+
+    <button mat-button (click)="logout()">Logout</button>
+
+  </ng-container>
+
+  <ng-container *ngIf="!(loggedUser$ | async)">
+    <span class="filler"></span>
+
+    <button mat-button routerLink="/signin">Sign in</button>
+    <button mat-button routerLink="/login">Login</button>
+
+  </ng-container>
+
+</mat-toolbar>

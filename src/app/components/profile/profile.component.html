@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-title>
+    User Profile
+  </mat-card-title>
+  <form [formGroup]="profileForm" (ngSubmit)="submit()">
+    <mat-card-content>
+
+      <mat-form-field>
+        <input type="email" placeholder="Email" matInput formControlName="email">
+        <mat-error *ngFor="let error of profileForm.get('email').errors | keyvalue | slice:0:1">
+          {{error.key === 'email' ? 'Email format not valid' : ''}}
+          {{error.key === 'required' ? 'Email is required' : ''}}
+          {{error.key === 'emailTaken' ? 'Email not available' : ''}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="number" placeholder="Minimum Glee per day" matInput formControlName="minGleePerDay">
+        <mat-error *ngFor="let error of profileForm.get('minGleePerDay').errors | keyvalue | slice :0:1">
+          {{error.key === 'required' ? 'Minimum Glee Per Day is required' : ''}}
+        </mat-error>    
+      </mat-form-field>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="changePassword()">Change password</button>
+      <button mat-button type="submit" [disabled]="!profileForm.valid">Save</button>
+    </mat-card-actions>
+  </form>
+</mat-card>

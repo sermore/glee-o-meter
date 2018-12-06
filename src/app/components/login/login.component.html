@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-title>
+    Login
+  </mat-card-title>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-card-content>
+
+      <mat-form-field>
+        <input type="email" placeholder="Email" matInput formControlName="username" >
+        <mat-error *ngFor="let error of loginForm.get('username').errors | keyvalue | slice:0:1">
+          {{error.key === 'email' ? 'Email format not valid' : ''}}
+          {{error.key === 'required' ? 'Email is required' : ''}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="password" placeholder="Password" matInput formControlName="password">
+        <mat-error *ngFor="let error of loginForm.get('password').errors | keyvalue | slice:0:1">
+          {{error.key === 'required' ? 'Password is required' : ''}}
+        </mat-error>
+      </mat-form-field>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button type="submit" [disabled]="!loginForm.valid">Login</button>
+    </mat-card-actions>
+  </form>
+</mat-card>

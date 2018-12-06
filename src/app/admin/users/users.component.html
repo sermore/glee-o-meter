@@ -1,0 +1,91 @@
+<div class="container">
+
+  <mat-expansion-panel>
+
+
+    <mat-expansion-panel-header>
+
+      <mat-panel-title>
+        Filter
+      </mat-panel-title>
+
+      <mat-panel-description>Filter by email </mat-panel-description>
+
+    </mat-expansion-panel-header>
+
+    <form #filterForm="ngForm" class="filter-container">
+
+      <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="filter.email" name="email">
+      </mat-form-field>
+
+      <div class="filter-actions">
+        <button mat-raised-button type="reset" (click)="resetFilter()">Reset</button>
+        <button mat-raised-button color="primary" type="submit" (click)="applyFilter()" [disabled]="!filterForm.valid">Apply</button>
+      </div>
+
+    </form>
+
+  </mat-expansion-panel>
+
+  <mat-card>
+
+    <mat-card-title>Users</mat-card-title>
+
+    <mat-card-content>
+
+      <mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.email}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="minGleePerDay">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Minimum Glee per day </mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.minGleePerDay | number: '1.0-2' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Role </mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.role}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>
+            <button mat-icon-button (click)="create()">
+              <mat-icon aria-label="Add">create</mat-icon>
+            </button>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let user;index as i">
+            <button mat-icon-button (click)="changePassword(i)">
+              <mat-icon aria-label="Change password">replay</mat-icon>
+            </button>
+            <button mat-icon-button (click)="edit(i)">
+              <mat-icon aria-label="Edit">edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="delete(i)">
+              <mat-icon aria-label="Delete">delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+      </mat-table>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </mat-card-actions>
+
+  </mat-card>
+
+</div>

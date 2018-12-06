@@ -1,0 +1,136 @@
+<div class="container">
+
+  <mat-expansion-panel>
+
+
+    <mat-expansion-panel-header>
+
+      <mat-panel-title>
+        Filter
+      </mat-panel-title>
+
+      <mat-panel-description>Filter by {{adminUser ? 'user,' : ''}} date and time range </mat-panel-description>
+
+    </mat-expansion-panel-header>
+
+    <form #filterForm="ngForm" class="filter-container">
+
+      <mat-form-field>
+        <input matInput placeholder="From date" [owlDateTime]="filterGleeFromDate" [owlDateTimeTrigger]="filterGleeFromDate"
+          [(ngModel)]="filter.fromDate" name="fromDate" [max]="filter.toDate">
+        <owl-date-time #filterGleeFromDate pickerType="calendar"></owl-date-time>
+      </mat-form-field>
+      <!-- <a [owlDateTimeTrigger]="filterGleeFromDate" ><mat-icon class="md-12">event</mat-icon></a> -->
+
+      <mat-form-field>
+        <input matInput placeholder="To date" [owlDateTime]="filterGleeToDate" [owlDateTimeTrigger]="filterGleeToDate"
+          [(ngModel)]="filter.toDate" name="toDate" [min]="filter.fromDate">
+        <owl-date-time #filterGleeToDate pickerType="calendar"></owl-date-time>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="From time" [owlDateTime]="filterGleeFromTime" [owlDateTimeTrigger]="filterGleeFromTime"
+          [(ngModel)]="filter.fromTime" name="fromTime" [max]="filter.toTime">
+        <owl-date-time #filterGleeFromTime pickerType="timer"></owl-date-time>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="To time" [owlDateTime]="filterGleeToTime" [owlDateTimeTrigger]="filterGleeToTime"
+          [(ngModel)]="filter.toTime" name="toTime" [min]="filter.fromTime">
+        <owl-date-time #filterGleeToTime pickerType="timer"></owl-date-time>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="adminUser">
+        <select matNativeControl placeholder="User" [(ngModel)]="filter.userId" name="userId">
+          <option value="" [selected]="!filter.userId"></option>
+          <option *ngFor="let user of users$ | async" [selected]="user.id === filter.userId" [value]="user.id">{{user.email}}</option>
+        </select>
+      </mat-form-field>
+
+      <div class="filter-actions">
+        <button mat-raised-button type="reset" (click)="resetFilter()">Reset</button>
+        <button mat-raised-button color="primary" type="submit" (click)="applyFilter()" [disabled]="!filterForm.valid">Apply</button>
+      </div>
+
+    </form>
+
+  </mat-expansion-panel>
+
+  <mat-card>
+
+    <mat-card-title>Glee</mat-card-title>
+
+    <mat-card-content>
+
+      <mat-table [dataSource]="dataSource" matSort>
+
+        <!-- <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="glee-id"> # </mat-header-cell>
+          <mat-cell *matCellDef="let glee" class="glee-id"> {{glee.id}} </mat-cell>
+        </ng-container> -->
+
+        <ng-container matColumnDef="email" *ngIf="adminUser">
+          <mat-header-cell *matHeaderCellDef > User </mat-header-cell>
+          <mat-cell *matCellDef="let glee">
+            {{glee.email}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Date </mat-header-cell>
+          <mat-cell *matCellDef="let glee">
+            {{glee.date | date: 'mediumDate'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="time">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Time </mat-header-cell>
+          <mat-cell *matCellDef="let glee">
+            {{glee.time | date: 'shortTime'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="text">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Text </mat-header-cell>
+          <mat-cell *matCellDef="let glee">
+            {{glee.text}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="value">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Value </mat-header-cell>
+          <mat-cell *matCellDef="let glee" [class.glee-value-over]="valueOver(glee.value)" >
+            {{glee.value | number: '1.0-2' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>
+            <button mat-icon-button (click)="create()">
+              <mat-icon aria-label="Add">create</mat-icon>
+            </button>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let glee;index as i">
+            <button mat-icon-button (click)="edit(i)">
+              <mat-icon aria-label="Edit">edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="delete(i)">
+              <mat-icon aria-label="Delete">delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+      </mat-table>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons ></mat-paginator>
+    </mat-card-actions>
+
+  </mat-card>
+
+
+</div>

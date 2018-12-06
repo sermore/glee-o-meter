@@ -1,0 +1,51 @@
+.container {
+    margin: 16px;
+}
+
+.mat-header-cell {
+    justify-content: center;
+}
+
+.mat-cell, .mat-header-cell {
+    padding-right: 8px;
+
+    &:first-of-type {
+    padding-left: 12px;
+    }
+    &:last-of-type {
+        padding-right: 12px;
+    }
+}
+
+.material-icons.md-12 {
+    font-size: 12px;
+}
+
+.mat-column-email {
+    flex: 1 1 5em;
+}
+
+.mat-column-minGleePerDay {
+    flex: 1 1 3em;
+    justify-content: flex-end;
+}
+
+.mat-column-role {
+    flex: 1.5 1 5em;
+}
+
+.glee-actions {
+    flex: 0.7 0 40px;
+    flex-wrap: wrap;
+    max-width: 80px;
+}
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.filter-actions button {
+    margin-right: 8px;
+}

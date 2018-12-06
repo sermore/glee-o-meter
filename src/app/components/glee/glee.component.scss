@@ -1,0 +1,67 @@
+.container {
+    margin: 16px;
+}
+
+.mat-header-cell {
+    justify-content: center;
+}
+
+.mat-cell, .mat-header-cell {
+    padding-right: 8px;
+
+    &:first-of-type {
+    padding-left: 12px;
+    }
+    &:last-of-type {
+        padding-right: 12px;
+    }
+}
+
+.material-icons.md-12 {
+    font-size: 12px;
+}
+
+.mat-column-user {
+    flex: 1 1 3em;
+}
+
+.mat-column-date {
+    flex: 1.2 1 5em;
+}
+
+.mat-column-time {
+    flex: 1 1 4em;
+}
+
+.mat-column-text {
+    flex: 1.5 1 5em;
+}
+
+.mat-column-value {
+    flex: 1 1 3em;
+    justify-content: flex-end;
+}
+
+.mat-cell.mat-column-value {
+    color: green;
+}
+
+.mat-cell.glee-value-over {
+    color: red;
+}
+
+.glee-actions {
+    flex: 0.7 0 40px;
+    flex-wrap: wrap;
+    max-width: 80px;
+}
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.filter-actions button {
+    margin-right: 8px;
+}
