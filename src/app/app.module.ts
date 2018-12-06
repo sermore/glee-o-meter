@@ -8,7 +8,7 @@ import { AppComponent } from './components/app/app.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SigninComponent } from './components/signin/signin.component';
 import { ConfigService, configServiceInitializerFactory } from './services/config.service';
 import { TokenInterceptor } from './services/token.interceptor';
 import { SharedModule } from './shared/shared.module';
@@ -20,7 +20,7 @@ import { SharedModule } from './shared/shared.module';
     NavbarComponent,
     LoginComponent,
     ProfileComponent,
-    SignInComponent
+    SigninComponent
   ],
   imports: [
     BrowserAnimationsModule,

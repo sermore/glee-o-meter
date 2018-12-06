@@ -7,11 +7,11 @@ import { MatSnackBar } from '@angular/material';
 import { formatError } from 'src/app/services/store-service';
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  selector: 'app-signin',
+  templateUrl: './signin.component.html',
+  styleUrls: ['./signin.component.scss']
 })
-export class SignInComponent implements OnInit {
+export class SigninComponent implements OnInit {
 
   signInForm: FormGroup;
 

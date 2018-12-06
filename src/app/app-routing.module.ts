@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SigninComponent } from './components/signin/signin.component';
 import { Role } from './models/user';
 
 const routes: Routes = [
@@ -26,7 +26,7 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'signin', component: SignInComponent },
+      { path: 'signin', component: SigninComponent },
     ]
   },
   { path: '', redirectTo: '/glee', pathMatch: 'full' },
