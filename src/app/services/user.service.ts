@@ -47,7 +47,7 @@ export class UserService extends StoreService<User> {
   }
 
   signin(email: string, password: string): Observable<User> {
-    console.log('signin ${email} ${password}');
+    console.log(`signin ${email} ${password}`);
     return this.http.post<User>(this.signinUrl, new HttpParams().set('email', email).set('password', password));
   }
 

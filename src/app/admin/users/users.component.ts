@@ -27,7 +27,7 @@ export class UsersComponent implements OnInit {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private authService: AuthenticationService,
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -65,7 +65,13 @@ export class UsersComponent implements OnInit {
   delete(i: number) {
     console.log(`delete ${i}`);
     this.dataSource.delete(i).subscribe(
-      res => this.snackBar.open(`User deleted.`),
+      res => {
+        if (this.dataSource.data[i].id === this.currentUser.id) {
+          this.authService.logout(`Deleted current user: forced logout.`);
+        } else {
+          this.snackBar.open(`User deleted.`);
+        }
+      },
       err => this.snackBar.open(`User deletion failed due to ${formatError(err)}.`)
     );
   }

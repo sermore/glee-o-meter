@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/commo
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, empty, Observable, of, Subject, EMPTY } from 'rxjs';
+import { BehaviorSubject, empty, Observable, of, Subject, EMPTY, throwError } from 'rxjs';
 import { catchError, filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
 import { Role, User } from '../models/user';
 import { ConfigService } from './config.service';
@@ -30,13 +30,13 @@ export class AuthenticationService {
     private router: Router,
     private userService: UserService,
   ) {
-    this.jwtHelper = new JwtHelperService();
     console.log('init auth');
+    this.jwtHelper = new JwtHelperService();
+    TokenInterceptor.init(this);
     this.initAccessTokenPipe();
     this.initLoggedUserPipe();
     this.logoutSubject = new Subject<string>();
     this.logout$ = this.logoutSubject.asObservable();
-    TokenInterceptor.init(this);
   }
 
   private initAccessTokenPipe() {
@@ -57,19 +57,18 @@ export class AuthenticationService {
   }
 
   private initLoggedUserPipe() {
-    this.extractLoggedUser(this.accessToken).subscribe(user => {
-      this.loggedUserSubject = new BehaviorSubject<User>(user);
-      this.loggedUser$ = this.loggedUserSubject.asObservable().pipe(
-        skipWhile(() => {
-          // this stops loggedUser subject to emit when the current user is being loaded
-          // it's mainly used inside auth guard, in order to make it waits for current user to be loaded before checking next url
-          // console.log(`skip loggedUser ${this.userLoading}`);
-          return this.userLoading;
-        })
-      );
-    });
+    this.userLoading = true;
+    this.loggedUserSubject = new BehaviorSubject<User>(null);
+    this.loggedUser$ = this.loggedUserSubject.asObservable().pipe(
+      skipWhile(() => {
+        // this stops loggedUser subject to emit when the current user is being loaded
+        // it's mainly used inside auth guard, in order to make it waits for current user to be loaded before checking next url
+        // console.log(`skip loggedUser ${this.userLoading}`);
+        return this.userLoading;
+      }),
+    );
     this.accessTokenSubject.asObservable().pipe(
-          // blocks loggedUser to emit until currrent user is loaded
+      // blocks loggedUser to emit until currrent user is loaded
       tap(() => this.userLoading = true),
       switchMap(token => this.extractLoggedUser(token)))
       .subscribe(user => {
@@ -85,7 +84,9 @@ export class AuthenticationService {
   }
 
   interceptUrl(req: HttpRequest<any>): boolean {
-    return req.url.startsWith(this.config.config.serverUrl) && !req.headers.get('Authorization');
+    return req.url.startsWith(this.config.config.serverUrl)
+      && !req.url.startsWith(this.config.config.signinUrl)
+      && !req.headers.get('Authorization');
   }
 
   login(username: string, password: string): Promise<string> {
@@ -126,20 +127,17 @@ export class AuthenticationService {
 
   private get accessToken(): string {
     const token = this.getToken(accessTokenKey);
-    return token && !this.isTokenExpired(token) ? token : null;
-  }
-
-  private isTokenExpired(key: string) {
-    return this.jwtHelper.isTokenExpired(this.getToken(key));
+    return token && !this.jwtHelper.isTokenExpired(token) ? token : null;
   }
 
   private loadAccessTokenUsingRefreshToken(): Observable<string> {
-    if (this.isTokenExpired(refreshTokenKey)) {
+    const token = this.getToken(refreshTokenKey);
+    if (!token || this.jwtHelper.isTokenExpired(token)) {
       console.log('refresh token expired: must logout');
       this.logout('Refresh token expired');
       return EMPTY;
     }
-    return this.loadAccessToken(false, this.getToken(refreshTokenKey));
+    return this.loadAccessToken(false, token);
   }
 
   private loadAccessToken(retrieveAccessToken: boolean, refreshToken?: string, username?: string, password?: string):
@@ -167,8 +165,10 @@ export class AuthenticationService {
       }),
       catchError(error => {
         console.error(error);
-        console.log('error in loading token');
-        return EMPTY;
+        if (refreshToken) {
+          this.logout('Error loading access token, force logout.');
+        }
+        throw error;
       })
     );
   }

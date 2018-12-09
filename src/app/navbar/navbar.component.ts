@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('init navbar');
     this.loggedUser$ = this.authentication.loggedUser$;
     this.authentication.logout$.subscribe(msg => this.snackBar.open(msg));
   }

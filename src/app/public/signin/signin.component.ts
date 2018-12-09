@@ -13,12 +13,12 @@ import { formatError } from 'src/app/services/store-service';
 })
 export class SigninComponent implements OnInit {
 
-  signInForm: FormGroup;
+  signinForm: FormGroup;
 
   constructor(private router: Router, private userService: UserService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.signInForm = new FormGroup({
+    this.signinForm = new FormGroup({
       email: new FormControl('',
         {
           validators: [Validators.required, Validators.email],
@@ -29,11 +29,12 @@ export class SigninComponent implements OnInit {
     });
   }
 
-  signIn() {
-    this.userService.signin(this.signInForm.get('email').value, this.signInForm.get('password').value)
+  signin() {
+    this.userService.signin(this.signinForm.get('email').value, this.signinForm.get('password').value)
       .subscribe(newUser => {
         console.log(`after signin ${newUser}`);
         if (newUser) {
+          this.snackBar.open(`User ${newUser.email} successfully created.`);
           this.router.navigate(['/login']);
         }
       },

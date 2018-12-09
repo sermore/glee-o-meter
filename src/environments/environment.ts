@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  serverUrl: 'http://localhost:8080/api/',
+  loginUrl: 'http://localhost:8080/oauth/token',
+  signinUrl: 'http://localhost:8080/api/signin',
+  clientId: 'glee-o-meter',
+  clientSecret: 'secret'
 };
 
 /*
