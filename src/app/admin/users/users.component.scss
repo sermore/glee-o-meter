@@ -2,12 +2,18 @@
     margin: 16px;
 }
 
+.mat-header-row, .mat-row {
+    justify-content: space-between;
+}
+
 .mat-header-cell {
     justify-content: center;
 }
 
 .mat-cell, .mat-header-cell {
     padding-right: 8px;
+    word-wrap: break-word;
+    word-break: break-all;
 
     &:first-of-type {
     padding-left: 12px;
@@ -22,22 +28,25 @@
 }
 
 .mat-column-email {
-    flex: 1 1 5em;
+    flex: 0.3 1 10em;
+    max-width: 15em;
 }
 
 .mat-column-minGleePerDay {
-    flex: 1 1 3em;
+    flex: 0.2 1 5em;
     justify-content: flex-end;
+    max-width: 10em;
 }
 
 .mat-column-role {
-    flex: 1.5 1 5em;
+    flex: 0.2 1 8em;
+    max-width: 12em;
 }
 
-.glee-actions {
-    flex: 0.7 0 40px;
+.mat-column-actions {
+    flex: 0 0 120px;
     flex-wrap: wrap;
-    max-width: 80px;
+    max-width: 150px;
 }
 
 .filter-container {
