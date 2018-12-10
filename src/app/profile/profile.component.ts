@@ -8,6 +8,8 @@ import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
 import { ChangePasswordComponent } from 'src/app/shared/change-password/change-password.component';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { formatError } from '../services/store-service';
 
 @Component({
   selector: 'app-profile',
@@ -19,14 +21,18 @@ export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   private currentUser: User;
   private dialogRef: MatDialogRef<ChangePasswordComponent>;
+  private loadingSubject: BehaviorSubject<boolean>;
+  loading$: Observable<boolean>;
 
   constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
     private userService: UserService,
     private authentication: AuthenticationService,
-  ) { }
+  ) {
+    this.loadingSubject = new BehaviorSubject<boolean>(false);
+    this.loading$ = this.loadingSubject.asObservable();
+   }
 
   ngOnInit() {
     console.log('init profile');
@@ -61,16 +67,21 @@ export class ProfileComponent implements OnInit {
   }
 
   submit() {
+    this.loadingSubject.next(true);
     this.currentUser.email = this.profileForm.get('email').value;
     this.currentUser.minGleePerDay = Number(this.profileForm.get('minGleePerDay').value);
     this.userService.update(this.currentUser).subscribe(() => {
+      this.snackBar.open(`User updated.`);
       console.log(this.currentUser);
+      this.loadingSubject.next(false);
       if (this.authentication.currentUserUpdateForceLogout(this.currentUser)) {
         if (this.dialogRef) {
           this.dialogRef.close();
         }
       }
-    });
+    },
+    err => this.snackBar.open(`User update failed due to ${formatError(err)}.`)
+    );
   }
 
 }

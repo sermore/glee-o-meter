@@ -18,7 +18,7 @@ export class UserDetailComponent implements OnInit {
   user: User;
   userForm: FormGroup;
   private index: number;
-  private dataSource: StoreServiceDataSource<User>;
+  dataSource: StoreServiceDataSource<User>;
   private currentUser: User;
 
   constructor(

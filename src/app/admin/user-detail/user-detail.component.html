@@ -1,31 +1,39 @@
 <h1 mat-dialog-title>User</h1>
 
-<mat-dialog-content [formGroup]="userForm" class="user-detail-content">
+<form [formGroup]="userForm" (ngSubmit)="submit()" >
 
-  <mat-form-field>
-    <input matInput placeholder="email" formControlName="email">
-    <mat-error *ngFor="let error of userForm.get('email').errors | keyvalue | slice:0:1">
-      {{error.key === 'email' ? 'Email format not valid' : ''}}
-      {{error.key === 'required' ? 'Email is required' : ''}}
-      {{error.key === 'emailTaken' ? 'Email is already taken' : ''}}
-    </mat-error>
-</mat-form-field>
+  <mat-dialog-content class="user-detail-content">
 
-  <mat-form-field>
-    <mat-select placeholder="Role" formControlName="role">
-      <mat-option value="USER">User</mat-option>
-      <mat-option value="ADMIN">Admin</mat-option>
-      <mat-option value="USER_MANAGER">User manager</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="email" formControlName="email">
+      <mat-error *ngFor="let error of userForm.get('email').errors | keyvalue | slice:0:1">
+        {{error.key === 'email' ? 'Email format not valid' : ''}}
+        {{error.key === 'required' ? 'Email is required' : ''}}
+        {{error.key === 'emailTaken' ? 'Email is already taken' : ''}}
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field>
-    <input type="number" placeholder="Minimum Glee per day" matInput formControlName="minGleePerDay">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Role" formControlName="role">
+        <mat-option value="USER">User</mat-option>
+        <mat-option value="ADMIN">Admin</mat-option>
+        <mat-option value="USER_MANAGER">User manager</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-</mat-dialog-content>
+    <mat-form-field>
+      <input type="number" placeholder="Minimum Glee per day" matInput formControlName="minGleePerDay">
+    </mat-form-field>
 
-<mat-dialog-actions class="user-detail-actions">
-  <button mat-button (click)="close()">Cancel</button>
-  <button mat-button type="submit" [disabled]="!userForm.valid" (click)="submit()">Save</button>
-</mat-dialog-actions>
+    <div class="spinner" *ngIf="dataSource.loading$ | async">
+      <mat-spinner></mat-spinner>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="user-detail-actions">
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-button type="submit" [disabled]="!userForm.valid">Save</button>
+  </mat-dialog-actions>
+
+</form>

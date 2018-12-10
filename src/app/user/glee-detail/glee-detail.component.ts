@@ -1,11 +1,13 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Glee } from 'src/app/models/glee';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { User } from 'src/app/models/user';
 import { Observable } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { map } from 'rxjs/operators';
+import { StoreServiceDataSource } from 'src/app/helpers/store-service-data-source';
+import { formatError } from 'src/app/services/store-service';
 
 @Component({
   selector: 'app-glee-detail',
@@ -14,14 +16,21 @@ import { map } from 'rxjs/operators';
 })
 export class GleeDetailComponent implements OnInit {
 
+  index: number;
   glee: Glee;
   gleeForm: FormGroup;
   adminUser: boolean;
   users$: Observable<User[]>;
+  dataSource: StoreServiceDataSource<Glee>;
 
-  constructor(private userService: UserService, private dialogRef: MatDialogRef<GleeDetailComponent>, @Inject(MAT_DIALOG_DATA) data) {
+  constructor(private userService: UserService,
+    private dialogRef: MatDialogRef<GleeDetailComponent>,
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) data) {
+    this.index = data.index;
     this.glee = data.glee;
     this.adminUser = data.adminUser;
+    this.dataSource = data.dataSource;
     this.users$ = this.userService.load(null, null).pipe(map(result => result.data));
   }
 
@@ -48,7 +57,9 @@ export class GleeDetailComponent implements OnInit {
     const date = new Date(this.gleeForm.value.date);
     const time = new Date(this.gleeForm.value.time);
     const userId = this.adminUser ? Number(this.gleeForm.value.userId) : this.glee.userId;
-    Object.assign(this.glee, {
+    const glee = new Glee();
+    Object.assign(glee, {
+      id: this.glee.id,
       date: date,
       time: time,
       text: String(this.gleeForm.value.text),
@@ -56,7 +67,23 @@ export class GleeDetailComponent implements OnInit {
       userId: userId,
       email: null,
     });
-    this.dialogRef.close(this.glee);
+    if (this.index === null) {
+      this.dataSource.create(glee).subscribe(
+        res => {
+          this.snackBar.open(`Glee on ${res.date.toLocaleDateString()} ${res.time.toLocaleTimeString()} created.`);
+          this.dialogRef.close(res);
+        },
+        err => this.snackBar.open(`Glee creation failed due to ${formatError(err)}.`)
+      );
+    } else {
+      this.dataSource.update(this.index, glee).subscribe(
+        res => {
+          this.snackBar.open(`Glee on ${glee.date.toLocaleDateString()} ${glee.time.toLocaleTimeString()} updated.`);
+          this.dialogRef.close(glee);
+        },
+        err => this.snackBar.open(`Glee update failed due to ${formatError(err)}.`)
+      );
+    }
   }
 
 }

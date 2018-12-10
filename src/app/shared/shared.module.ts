@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatExpansionModule,
   MatFormFieldModule, MatIconModule, MatInputModule, MatNativeDateModule, MatPaginatorModule,
-  MatSelectModule, MatSnackBarModule, MatSortModule, MatTableModule, MatToolbarModule
+  MatSelectModule, MatSnackBarModule, MatSortModule, MatTableModule, MatToolbarModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -32,7 +32,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MatCardModule,
     MatExpansionModule,
     MatSelectModule,
-    OwlDateTimeModule, OwlNativeDateTimeModule
+    OwlDateTimeModule, OwlNativeDateTimeModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [
     ChangePasswordComponent
@@ -58,6 +59,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MatSelectModule,
     MatSnackBarModule,
     OwlDateTimeModule, OwlNativeDateTimeModule,
+    MatProgressSpinnerModule,
     ChangePasswordComponent
   ]
 })

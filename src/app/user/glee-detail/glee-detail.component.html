@@ -1,52 +1,60 @@
 <h1 mat-dialog-title>Glee</h1>
 
-<mat-dialog-content [formGroup]="gleeForm" class="glee-detail-content">
+<form [formGroup]="gleeForm" (ngSubmit)="submit()">
 
-  <mat-form-field *ngIf="adminUser">
-    <select matNativeControl placeholder="User" formControlName="userId">
-      <option value=""></option>
-      <option *ngFor="let user of users$ | async" [value]="user.id">{{user.email}}</option>
-    </select>
-    <mat-error *ngFor="let error of gleeForm.get('userId').errors | keyvalue">
-      {{error.key === 'required' ? 'User is required' : ''}}
-    </mat-error>
-  </mat-form-field>
+  <mat-dialog-content class="glee-detail-content">
 
-  <mat-form-field>
-    <input matInput placeholder="Date" [owlDateTime]="gleeDate" [owlDateTimeTrigger]="gleeDate" formControlName="date">
-    <owl-date-time #gleeDate pickerType="calendar"></owl-date-time>
-    <mat-error *ngFor="let error of gleeForm.get('date').errors | keyvalue | slice :0:1">
-      {{error.key === 'required' ? 'Date is required' : ''}}
-      {{error.key === 'owlDateTimeParse' ? 'Format not correct': ''}}
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field *ngIf="adminUser">
+      <select matNativeControl placeholder="User" formControlName="userId">
+        <option value=""></option>
+        <option *ngFor="let user of users$ | async" [value]="user.id">{{user.email}}</option>
+      </select>
+      <mat-error *ngFor="let error of gleeForm.get('userId').errors | keyvalue">
+        {{error.key === 'required' ? 'User is required' : ''}}
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput placeholder="Time" [owlDateTime]="gleeTime" [owlDateTimeTrigger]="gleeTime" formControlName="time">
-    <owl-date-time #gleeTime pickerType="timer"></owl-date-time>
-    <mat-error *ngFor="let error of gleeForm.get('time').errors | keyvalue | slice :0:1">
-      {{error.key === 'required' ? 'Time is required' : ''}}
-      {{error.key === 'owlDateTimeParse' ? 'Format not correct' : ''}}
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Date" [owlDateTime]="gleeDate" [owlDateTimeTrigger]="gleeDate" formControlName="date">
+      <owl-date-time #gleeDate pickerType="calendar"></owl-date-time>
+      <mat-error *ngFor="let error of gleeForm.get('date').errors | keyvalue | slice :0:1">
+        {{error.key === 'required' ? 'Date is required' : ''}}
+        {{error.key === 'owlDateTimeParse' ? 'Format not correct': ''}}
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field>
-    <textarea matInput placeholder="Text" formControlName="text"></textarea>
-    <mat-error *ngFor="let error of gleeForm.get('text').errors | keyvalue | slice :0:1">
-      {{error.key === 'required' ? 'Time is required' : ''}}
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Time" [owlDateTime]="gleeTime" [owlDateTimeTrigger]="gleeTime" formControlName="time">
+      <owl-date-time #gleeTime pickerType="timer"></owl-date-time>
+      <mat-error *ngFor="let error of gleeForm.get('time').errors | keyvalue | slice :0:1">
+        {{error.key === 'required' ? 'Time is required' : ''}}
+        {{error.key === 'owlDateTimeParse' ? 'Format not correct' : ''}}
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field>
-    <input type="number" placeholder="Value" matInput formControlName="value">
-    <mat-error *ngFor="let error of gleeForm.get('value').errors | keyvalue | slice :0:1">
-      {{error.key === 'required' ? 'Value is required' : ''}}
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="Text" formControlName="text"></textarea>
+      <mat-error *ngFor="let error of gleeForm.get('text').errors | keyvalue | slice :0:1">
+        {{error.key === 'required' ? 'Time is required' : ''}}
+      </mat-error>
+    </mat-form-field>
 
-</mat-dialog-content>
+    <mat-form-field>
+      <input type="number" placeholder="Value" matInput formControlName="value">
+      <mat-error *ngFor="let error of gleeForm.get('value').errors | keyvalue | slice :0:1">
+        {{error.key === 'required' ? 'Value is required' : ''}}
+      </mat-error>
+    </mat-form-field>
 
-<mat-dialog-actions class="glee-detail-actions">
-  <button mat-button (click)="close()">Cancel</button>
-  <button mat-button type="submit" [disabled]="!gleeForm.valid" (click)="submit()">Save</button>
-</mat-dialog-actions>
+    <div class="spinner" *ngIf="dataSource.loading$ | async">
+      <mat-spinner></mat-spinner>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="glee-detail-actions">
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-button type="submit" [disabled]="!gleeForm.valid">Save</button>
+  </mat-dialog-actions>
+
+</form>

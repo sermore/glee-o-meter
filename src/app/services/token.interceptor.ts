@@ -27,7 +27,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return TokenInterceptor.authService.accessToken$.pipe(
       filter(token => { console.log('skipped token null'); return !!token; }),
       take(1),
-      // delay(2000),
+      // delay(3000),
       switchMap(token => {
         console.log(`add access token to ${req.urlWithParams}`);
         return next.handle(this.addToken(req, token));

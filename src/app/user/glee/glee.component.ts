@@ -34,8 +34,7 @@ export class GleeComponent implements OnInit {
     private gleeService: GleeService,
     private userService: UserService,
     private authService: AuthenticationService,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute) { }
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     console.log(`glee initialized ${this.authService.loggedUser.email}`);
@@ -57,21 +56,10 @@ export class GleeComponent implements OnInit {
       autoFocus: true,
       minWidth: '300px',
       data: {
+        index: i,
         glee: i === null ? new Glee({ user: { id: this.currentUser.id, email: null } }) : this.dataSource.data[i],
+        dataSource: this.dataSource,
         adminUser: this.adminUser
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: Glee) => {
-      // console.log(`create/edit ${i} => ${result}`);
-      if (result) {
-        if (i === null) {
-          this.dataSource.create(result)
-            .subscribe(res => this.snackBar.open(`Glee on ${res.date.toLocaleDateString()} created.`));
-        } else {
-          this.dataSource.update(i, result)
-            .subscribe(res => this.snackBar.open(`Glee on ${result.date.toLocaleDateString()} updated.`));
-        }
       }
     });
   }
