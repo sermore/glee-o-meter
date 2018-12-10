@@ -1,5 +1,11 @@
 .container {
-    margin: 16px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mat-expansion-panel, .mat-card {
+    margin: 6px;
 }
 
 .mat-header-cell {
