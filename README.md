@@ -1,6 +1,6 @@
 # Glee-O-Meter
 
-[Glee-o-meter](https://glee-o-meter.appspot.com){:target="_blank"} is a simple Angular 7 application focused on the interaction with a Spring REST server.
+[Glee-o-meter](https://glee-o-meter.appspot.com) is a simple Angular 7 application focused on the interaction with a Spring REST server.
 
 The data-centric application offers a basic user-management section, with the possibility to sign-in new users.
 Each user can manage a list of glee-levels, each one associated to a date, time and a comment.
@@ -16,7 +16,7 @@ The application has the following features:
 * authentication based on oauth2 JWT, with token refresh;
 * consumes REST resources `/api/glee`, `/api/users` and `/api/signin`
 
-The server side is implemented with Spring boot, slightly customized to run on [Google App Engine](https://cloud.google.com/appengine/){:target="_blank"}.
+The server side is implemented with Spring boot, slightly customized to run on [Google App Engine](https://cloud.google.com/appengine/).
 Server implementation features the following:
 * oauth2 JWT authentication with spring-boot, using grant types `password` and `refresh token`;
 * publish 2 authenticated REST resources `/api/glee`, `/api/users` and one public `/api/signin` for user registration;
@@ -26,7 +26,7 @@ Server implementation features the following:
 * CORS configuration for running separated local server and client development environments;
 
 
-A [running version](https://glee-o-meter.appspot.com){:target="_blank"} is deployed on Google App-Engine cloud.
+A [running version](https://glee-o-meter.appspot.com) is deployed on Google App-Engine cloud.
 
 Available users are:
 
